@@ -1,13 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.example.todolist"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.todolist"
@@ -37,8 +37,8 @@ android {
     }
 
     buildFeatures{
-        viewBinding =true
-        dataBinding= true
+        viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -58,7 +58,7 @@ dependencies {
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
@@ -66,7 +66,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Navigation
     implementation(libs.navigation.fragment.ktx)

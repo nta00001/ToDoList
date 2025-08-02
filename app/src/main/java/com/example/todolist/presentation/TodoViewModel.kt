@@ -7,18 +7,21 @@ import com.example.todolist.domain.usecase.AddTodoUseCase
 import com.example.todolist.domain.usecase.DeleteTodoUseCase
 import com.example.todolist.domain.usecase.GetTodosUseCase
 import com.example.todolist.domain.usecase.UpdateTodoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TodoViewModel(
+@HiltViewModel // Thêm annotation này
+class TodoViewModel @Inject constructor( // Thêm annotation này
     getTodos: GetTodosUseCase,
     private val addTodo: AddTodoUseCase,
     private val updateTodo: UpdateTodoUseCase,
     private val deleteTodo: DeleteTodoUseCase
 ) : ViewModel() {
 
-    val todos = getTodos().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    val todos = getTodos().stateIn(viewModelScope, SharingStarted.Lazily, emptyList<Todo>())
 
     fun add(title: String) {
         viewModelScope.launch {

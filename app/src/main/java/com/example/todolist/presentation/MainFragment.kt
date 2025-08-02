@@ -5,17 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.Fragment // ✅ Đảm bảo import đúng lớp này
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.databinding.FragmentMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class MainFragment : Fragment() {
+@AndroidEntryPoint // Đánh dấu để Hilt có thể inject
+class MainFragment : Fragment() { // Kế thừa từ androidx.fragment.app.Fragment
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: TodoViewModel by viewModels { TodoViewModelFactory() }
+
+    // Hilt sẽ tự động cung cấp ViewModel, không cần dùng Factory nữa
+    private val viewModel: TodoViewModel by viewModels()
+
     private val adapter = TodoAdapter(
         onCheckChanged = { viewModel.toggle(it) },
         onDelete = { viewModel.delete(it) }
@@ -42,9 +50,12 @@ class MainFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.todos.collectLatest {
-                adapter.submitList(it)
+        // Sử dụng repeatOnLifecycle để thu thập flow một cách an toàn
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.todos.collectLatest { todos ->
+                    adapter.submitList(todos)
+                }
             }
         }
     }
