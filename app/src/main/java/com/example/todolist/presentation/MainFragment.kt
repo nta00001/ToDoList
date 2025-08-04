@@ -17,7 +17,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: MainAdapter
-    private val buttonList = listOf("To Do List",)
+    private val buttonList = listOf("To Do List","Scan QR Code")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +33,9 @@ class MainFragment : Fragment() {
         adapter = MainAdapter(buttonList) { item ->
             when (item) {
                 "To Do List" -> findNavController().navigate(R.id.action_mainFragment_to_todolistFragment)
+                "Scan QR Code" -> findNavController().navigate(R.id.action_mainFragment_to_qrScannerFragment)
+
+
             }
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

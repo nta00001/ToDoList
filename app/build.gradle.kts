@@ -72,4 +72,11 @@ dependencies {
     // Navigation
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
+
+    // Triển khai nhóm CameraX bằng bundle
+    implementation(libs.bundles.camerax)
+
+    // Triển khai ML Kit và Guava
+    implementation(libs.mlkit.barcodeScanning)
+    implementation(libs.guava)
 }

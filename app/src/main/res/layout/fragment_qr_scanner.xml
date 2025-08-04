@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.qrcode.QrScannerFragment">
+
+    <!-- Camera Preview sẽ nằm ở lớp dưới cùng -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--
+    Lớp phủ (overlay) để tạo hiệu ứng mờ xung quanh khung quét.
+    Một View đơn giản với màu nền bán trong suốt.
+    -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000" />
+
+    <!--
+    Khung quét hình vuông ở giữa.
+    Sử dụng View và background là một shape drawable để tạo đường viền.
+    -->
+    <View
+        android:id="@+id/scanner_frame"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@drawable/qr_scanner_frame"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <!--
+    View này sẽ "cắt" một lỗ trong suốt ở giữa lớp phủ,
+    làm cho khu vực bên trong khung quét trở nên rõ ràng.
+    Nó phải có cùng kích thước và vị trí với scanner_frame.
+    -->
+    <View
+        android:id="@+id/transparent_hole"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/scanner_frame"
+        app:layout_constraintEnd_toEndOf="@id/scanner_frame"
+        app:layout_constraintStart_toStartOf="@id/scanner_frame"
+        app:layout_constraintTop_toTopOf="@id/scanner_frame" />
+
+    <!--
+    Dòng text hướng dẫn người dùng.
+    Đặt bên dưới khung quét.
+    -->
+    <TextView
+        android:id="@+id/result_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/qr_text_background"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:text="Di chuyển camera vào mã QR"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/scanner_frame"
+        app:layout_constraintStart_toStartOf="@id/scanner_frame"
+        app:layout_constraintTop_toBottomOf="@id/scanner_frame" />
+
+    <ImageButton
+        android:id="@+id/gallery_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/white"
+        android:contentDescription="Chọn ảnh từ thư viện" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
