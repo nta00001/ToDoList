@@ -7,5 +7,18 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.todolist.presentation.MainFragment"
-        android:label="Todo List" />
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_todolistFragment"
+            app:destination="@id/todolistFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/todolistFragment"
+        android:name="com.example.todolist.presentation.todolist.TodolistFragment"
+        android:label="TodolistFragment" />
+
+
+
 </navigation>
